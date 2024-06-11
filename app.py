@@ -24,11 +24,12 @@ def jira_webhook():
     if request.is_json:
         data = request.json
         # Log the received data to the console
-        print(f"Received webhook data: {data}")
 
         # Process the webhook data here
         issue_key = data["issue"]["key"] if "issue" in data else "No issue key"
         event_type = data["webhookEvent"] if "webhookEvent" in data else "No event type"
+
+        print(f"Received webhook data: {issue_key} and {event_type}")
 
         return (
             jsonify(
