@@ -23,20 +23,12 @@ def jira_webhook():
     # Ensure the request is in JSON format
     if request.is_json:
         data = request.json
-        # Log the received data for debugging
+        # Log the received data to the console
         print(f"Received webhook data: {data}")
 
         # Process the webhook data here
         issue_key = data["issue"]["key"] if "issue" in data else "No issue key"
         event_type = data["webhookEvent"] if "webhookEvent" in data else "No event type"
-
-        # Create or append to a file with the received data
-        file_path = "webhook_data.txt"
-        with open(file_path, "a") as f:
-            f.write(
-                f"{datetime.now()} - Issue Key: {issue_key}, Event Type: {event_type}\n"
-            )
-            f.write(f"{data}\n\n")
 
         return (
             jsonify(
