@@ -5,6 +5,8 @@
 
 
 from flask import Flask, request, jsonify, render_template
+import os
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -25,11 +27,16 @@ def jira_webhook():
         print(f"Received webhook data: {data}")
 
         # Process the webhook data here
-        # For example, you can extract the issue key and event type
         issue_key = data["issue"]["key"] if "issue" in data else "No issue key"
         event_type = data["webhookEvent"] if "webhookEvent" in data else "No event type"
 
-        # Add your custom processing logic here
+        # Create or append to a file with the received data
+        file_path = "webhook_data.txt"
+        with open(file_path, "a") as f:
+            f.write(
+                f"{datetime.now()} - Issue Key: {issue_key}, Event Type: {event_type}\n"
+            )
+            f.write(f"{data}\n\n")
 
         return (
             jsonify(
